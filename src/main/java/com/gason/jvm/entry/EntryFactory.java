@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class EntryFactory {
 
-    public static Entry newEntry(String path) throws EntryException, IOException {
+    public static Entry newEntry(String path) throws  IOException {
         if (path.contains(Entry.pathListSeparator)) {
               return new CompositeEntry(path);
         }

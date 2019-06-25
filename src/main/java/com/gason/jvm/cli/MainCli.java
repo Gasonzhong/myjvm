@@ -1,9 +1,16 @@
 package com.gason.jvm.cli;
 
+import com.gason.jvm.exception.EntryException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @ClassName: MainCli
@@ -16,11 +23,13 @@ public class MainCli {
 
     public static void main(String[] args) {
         System.out.println("gason-jvm start!!!");
-        String test="dfsdf\\sfsd.zip";
-        File abs = new File("");
-        test=StringUtils.remove(test,".zip");
-        System.out.println(test);
 //        JvmCli.parseCmd(args);
-//        JvmCli.startJvm(args);
+        try {
+            JvmCli.startJvm(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (EntryException e) {
+            e.printStackTrace();
+        }
     }
 }

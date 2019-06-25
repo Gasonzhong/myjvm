@@ -7,6 +7,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * @ClassName: DirEntry
@@ -19,11 +20,12 @@ public class DirEntry implements Entry {
 
     public DirEntry(String path) throws  IOException {
         File abs = new File("");
-        this.absPath = abs.getCanonicalPath().concat("\\").concat(path);
+        absPath= Paths.get(abs.getCanonicalPath()).resolve(path).toString();
     }
 
+    @Override
     public EntryObject readClass(String className) {
-        String fileName = this.absPath.concat("\\").concat(className);
+        String fileName = Paths.get(this.absPath).resolve(className).toString();
         String error = null;
         byte[] readByte=null;
         try {

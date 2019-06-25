@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CompositeEntry implements Entry {
         absPathList = new ArrayList<String>();
         File abs = new File("");
         for (String path : pathArr) {
-            absPathList.add(abs.getCanonicalPath().concat("\\").concat(path));
+            absPathList.add(Paths.get(abs.getCanonicalPath()).resolve(path).toString());
         }
     }
 
@@ -33,6 +34,7 @@ public class CompositeEntry implements Entry {
      * @param className
      * @return
      */
+    @Override
     public EntryObject readClass(String className) {
         String error = null;
         byte[] readByte = null;

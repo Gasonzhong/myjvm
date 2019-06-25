@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +29,14 @@ public class Zip_Entry implements Entry {
 
     public Zip_Entry(String path) throws IOException {
         File abs = new File("");
-        this.absPath = abs.getCanonicalPath().concat("\\").concat(path);
+        this.absPath = Paths.get(abs.getCanonicalPath()).resolve(path).toString();
         if (!this.absPath.equals(lastPath) || StringUtils.isEmpty(lastPath)) {
             this.zipReadBytes = new HashMap<String, byte[]>();
         }
         this.lastPath = this.absPath;
     }
 
+    @Override
     public EntryObject readClass(String className) {
         byte[] readByte = null;
         String error = "";
@@ -45,9 +47,8 @@ public class Zip_Entry implements Entry {
             InputStream in = null;
             ZipInputStream zin = null;
             try {
-                URL url = new URL(this.absPath);
-                URLConnection connection = url.openConnection();
-                in = connection.getInputStream();
+                File file=Paths.get(this.absPath).resolve(className).toFile();
+                in = new FileInputStream(file);
                 zin = new ZipInputStream(in);
                 java.util.zip.ZipEntry ze;
                 while ((ze = zin.getNextEntry()) != null) {

@@ -3,19 +3,11 @@ package com.gason.jvm.entry.impl;
 import com.gason.jvm.entry.Entry;
 import com.gason.jvm.entry.EntryObject;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -30,9 +22,10 @@ public class WildcardEntry implements Entry {
     public WildcardEntry(String path) throws IOException {
         path = StringUtils.remove(path, "*");
         File abs = new File("");
-        absPath = abs.getCanonicalPath().concat("\\").concat(path);
+        absPath= Paths.get(abs.getCanonicalPath()).resolve(path).toString();
     }
 
+    @Override
     public EntryObject readClass(String className) {
         Collection<File> zipFiles = FileUtils.listFiles(new File(absPath), new String[]{"jar", "zip", "ZIP", "JAR"}, true);
         Collection<File> classFiles = FileUtils.listFiles(new File(absPath), new String[]{"class"}, true);
@@ -49,19 +42,19 @@ public class WildcardEntry implements Entry {
             byte[] readByte = null;
             String error = "";
 
-            ZipFile zf = null;
+//            ZipFile zf = null;
             InputStream in = null;
             ZipInputStream zin = null;
             try {
-                URL url = new URL(this.absPath);
-                URLConnection connection = url.openConnection();
-                in = connection.getInputStream();
+
+                in = new FileInputStream(file);
                 zin = new ZipInputStream(in);
                 java.util.zip.ZipEntry ze;
                 while ((ze = zin.getNextEntry()) != null) {
                     if (ze.isDirectory()) {
                     } else {
                         long size = ze.getSize();
+
                         if (!ze.getName().equals(className)) {
                             continue;
                         }

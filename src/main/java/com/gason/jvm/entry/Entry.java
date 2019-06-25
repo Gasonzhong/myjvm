@@ -15,6 +15,6 @@ public interface Entry {
      * @param className
      * @return 负责寻找和加载class文件；
      */
-    EntryObject readClass(String className) throws IOException;
+    EntryObject readClass(String className) ;
 
 }
