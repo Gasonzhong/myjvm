@@ -1,7 +1,7 @@
 package com.gason.jvm.entry.impl;
 
 import com.gason.jvm.entry.Entry;
-import com.gason.jvm.entry.EntryObject;
+import com.gason.jvm.object.EntryObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 

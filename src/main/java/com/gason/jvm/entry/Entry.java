@@ -1,6 +1,6 @@
 package com.gason.jvm.entry;
 
-import java.io.IOException;
+import com.gason.jvm.object.EntryObject;
 
 /**
  * @InterfaceName: Entry

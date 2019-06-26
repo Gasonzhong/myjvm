@@ -2,7 +2,7 @@ package com.gason.jvm.entry;
 
 import com.gason.jvm.entry.impl.WildcardEntry;
 import com.gason.jvm.exception.EntryException;
-import org.apache.commons.io.FileUtils;
+import com.gason.jvm.object.EntryObject;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

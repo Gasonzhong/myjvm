@@ -1,20 +1,15 @@
 package com.gason.jvm.entry.impl;
 
 import com.gason.jvm.entry.Entry;
-import com.gason.jvm.entry.EntryObject;
+import com.gason.jvm.object.EntryObject;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
-import java.util.zip.ZipEntry;
 
 /**
  * @ClassName: Zip_Entry

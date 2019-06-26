@@ -22,14 +22,24 @@ public class MainCli {
 //    static final String[] mJvmArgs = {"java", "-version", "-help"};
 
     public static void main(String[] args) {
-        System.out.println("gason-jvm start!!!");
-//        JvmCli.parseCmd(args);
-        try {
-            JvmCli.startJvm(args);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (EntryException e) {
-            e.printStackTrace();
+        int i = 6;
+        switch (i) {
+            case 0:
+                break;
+            case 6:
+                System.out.println(i);
+                break;
+            default:
+                break;
         }
+//        System.out.println("gason-jvm start!!!");
+////        JvmCli.parseCmd(args);
+//        try {
+//            JvmCli.startJvm(args);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (EntryException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -1,4 +1,6 @@
-package com.gason.jvm.entry;
+package com.gason.jvm.object;
+
+import com.gason.jvm.entry.Entry;
 
 import java.util.List;
 
