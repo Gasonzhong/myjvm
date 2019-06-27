@@ -17,4 +17,8 @@ java实现jvm(参考《自己动手写java虚拟机》),书是go实现，本项�
 * 接口索引表：interfaces
 * 字段，方法表：MemberInfo[] fields,methods;
 * 属性 AttributeInfo attributes
- 
+### 常量池（ConstantPool）
+1. 基本类型byte、short、char、int、long、float和double的描述符 是单个字母，分别对应B、S、C、I、J、F和D。注意，long的描述符是J
+而不是L。 
+2. 引用类型的描述符是L＋类的完全限定名＋分号。 
+3.  数组类型的描述符是[＋数组元素类型描述符。 2）字段描述符就是字段类型的描述符。 3）方法描述符是（分号分隔的参数类型描述符）+返回值类型描 述符，其中void返回值由单个字母V表示。 更详细的介绍可以参考Java虚拟机规范4.3节

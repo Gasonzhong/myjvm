@@ -27,6 +27,13 @@ public class MemberInfo {
         return null;
     }
 
+    public String getName(){
+        return cp.getUtf8(this.nameIndex);
+    }
+
+    public String getDescriptor(){
+        return cp.getUtf8(this.descriptionIndex);
+    }
     /**
      * readMembers（）读取字 段表或方法表
      *
