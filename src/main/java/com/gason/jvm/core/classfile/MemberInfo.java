@@ -1,5 +1,6 @@
 package com.gason.jvm.core.classfile;
 
+import com.gason.jvm.core.classfile.attributes.AttributeInfo;
 import com.gason.jvm.core.loader.ClassReader;
 
 /**
@@ -17,15 +18,13 @@ public class MemberInfo {
 
     public MemberInfo(ClassReader reader, ConstantPool constantPool) {
         this.cp = constantPool;
-        this.accessFlags = reader.readU2ToInt();
-        this.nameIndex = reader.readU2ToInt();
-        this.descriptionIndex = reader.readU2ToInt();
-        this.attributes = readAttributes(reader, cp);
+        this.accessFlags = reader.readUint16();
+        this.nameIndex = reader.readUint16();
+        this.descriptionIndex = reader.readUint16();
+        this.attributes = AttributeInfo.readAttributes(reader, cp);
     }
 
-    private AttributeInfo[] readAttributes(ClassReader reader, ConstantPool cp) {
-        return null;
-    }
+
 
     public String getName(){
         return cp.getUtf8(this.nameIndex);
@@ -41,8 +40,8 @@ public class MemberInfo {
      * @param constantPool
      * @return
      */
-    private MemberInfo[] readMembers(ClassReader reader, ConstantPool constantPool) {
-        int count = reader.readU2ToInt();
+    public static MemberInfo[] readMembers(ClassReader reader, ConstantPool constantPool) {
+        int count = reader.readUint16();
         MemberInfo[] memberInfos = new MemberInfo[count];
         for (int i = 0; i < count; i++) {
             memberInfos[i] = readMember(reader, constantPool);
@@ -57,7 +56,7 @@ public class MemberInfo {
      * @param constantPool
      * @return
      */
-    private MemberInfo readMember(ClassReader reader, ConstantPool constantPool) {
+    private static MemberInfo readMember(ClassReader reader, ConstantPool constantPool) {
         return new MemberInfo(reader, constantPool);
     }
 

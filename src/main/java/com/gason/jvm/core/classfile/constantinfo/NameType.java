@@ -10,6 +10,9 @@ public class NameType {
     private String name;
     private String type;
 
+    public NameType() {
+    }
+
     public NameType(String name, String type) {
         this.name = name;
         this.type = type;

@@ -18,7 +18,7 @@ public class ConstantPool {
     private  int count;
     public NameType getNameAndType(int index) {
         ConstantNameAndTypeInfo nameAndTypeInfo=(ConstantNameAndTypeInfo)this.constantInfos[index];
-        return new NameType(nameAndTypeInfo.getNameIndex()+"",nameAndTypeInfo.getDescriptorIndex()+"");
+        return new NameType(this.getUtf8(nameAndTypeInfo.getNameIndex()),this.getUtf8(nameAndTypeInfo.getDescriptorIndex()));
     }
 
     public String getClassName(int index) {
@@ -35,8 +35,9 @@ public class ConstantPool {
     public ConstantPool (ClassReader reader) {
         count = reader.readUint16();
         constantInfos = new ConstantInfo[count];
-        for (int i = 0; i < count; i++) {
+        for (int i = 1; i < count; i++) {
             constantInfos[i] = ConstantInfo.readConstantInfo(reader, this);
+            System.out.println( i+":"+constantInfos[i].tag());
             switch (constantInfos[i].tag()) {
                 case ConstantInfo.CONSTANT_DOUBLE:
                 case ConstantInfo.CONSTANT_LONG:

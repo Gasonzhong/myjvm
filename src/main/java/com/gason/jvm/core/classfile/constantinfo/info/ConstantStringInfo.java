@@ -25,7 +25,7 @@ public class ConstantStringInfo extends ConstantInfo {
 
     @Override
     protected void readInfo(ClassReader reader) {
-        strIndex = reader.readU2ToInt();
+        strIndex = reader.readUint16();
     }
 
     /**

@@ -22,8 +22,8 @@ public class ConstantMemberrefInfo extends ConstantInfo {
 
     @Override
     protected void readInfo(ClassReader reader) {
-        classIndex = reader.readU2ToInt();
-        nameAndTypeIndex = reader.readU2ToInt();
+        classIndex = reader.readUint16();
+        nameAndTypeIndex = reader.readUint16();
     }
 
     @Override

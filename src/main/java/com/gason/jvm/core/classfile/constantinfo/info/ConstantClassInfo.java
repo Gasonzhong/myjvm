@@ -20,7 +20,7 @@ public class ConstantClassInfo extends ConstantInfo {
 
     @Override
     protected void readInfo(ClassReader reader) {
-        this.nameIndex = reader.readU2ToInt();
+        this.nameIndex = reader.readUint16();
     }
 
     @Override

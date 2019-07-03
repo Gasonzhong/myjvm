@@ -1,5 +1,7 @@
 package com.gason.jvm.cli;
 
+import com.gason.jvm.core.classfile.ClassFile;
+import com.gason.jvm.core.classfile.MemberInfo;
 import com.gason.jvm.entry.ClassPath;
 import com.gason.jvm.object.EntryObject;
 import com.gason.jvm.exception.EntryException;
@@ -7,6 +9,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 /**
@@ -69,11 +72,42 @@ public class JvmCli {
         ClassPath cp = new ClassPath(cmd.getOptionValue("Xjre"), cmd.getOptionValue("classpath"));
         if (StringUtils.isNotBlank(className)) {
             className = className.replace(".", "/");
-            EntryObject object = cp.readClass(className);
-            if(StringUtils.isNotBlank(object.getError())){
-                System.out.println("error:"+object.getError());
-            }
-            System.out.println("byte[]:"+object.getReadByte().toString());
+            ClassFile classFile = loadClass(className, cp);
+            System.out.println("class:" + cmd.getOptionValue("class"));
+            printClassInfo(classFile);
+//            EntryObject object = cp.readClass(className);
+//            if (StringUtils.isNotBlank(object.getError())) {
+//                System.out.println("error:" + object.getError());
+//            }
+//            System.out.println("byte[]:" + object.getReadByte().toString());
         }
+    }
+
+    private static void printClassInfo(ClassFile cf) {
+        System.out.println("version: " + cf.getMajorVersion() + "." + cf.getMinorVersion());
+        System.out.println("constants count：" + cf.getConstantPool().getCount());
+        System.out.format("access flags：0x%x\n", cf.getAccessFlags());
+        System.out.println("this class：" + cf.getClassName());
+        System.out.println("super class：" + cf.getSuperClassName());
+        System.out.println("interfaces：" + Arrays.toString(cf.getInfacesName()));
+        System.out.println("fields count：" + cf.getFeilds().length);
+        for (MemberInfo memberInfo : cf.getFeilds()) {
+            System.out.format("%s \t\t %s\n", memberInfo.getName(), memberInfo.getDescriptor());
+        }
+
+        System.out.println("methods count: " + cf.getMethods().length);
+        for (MemberInfo memberInfo : cf.getMethods()) {
+            System.out.format("%s \t\t %s\n", memberInfo.getName(), memberInfo.getDescriptor());
+        }
+    }
+
+    private static ClassFile loadClass(String className, ClassPath cp) throws EntryException {
+        EntryObject object = cp.readClass(className);
+        if (StringUtils.isNotBlank(object.getError())) {
+            throw new EntryException(object.getError());
+        }
+        ClassFile classFile = new ClassFile(object.getReadByte());
+
+        return classFile;
     }
 }

@@ -10,13 +10,11 @@ import com.gason.jvm.core.loader.ClassReader;
  * @description:
  */
 public class ConstantMethodType extends ConstantInfo {
-    private int referenceKind;
-    private int referenceIndex;
+    private int descriptorIdx;
 
     @Override
     public void readInfo(ClassReader reader) {
-        this.referenceKind = reader.readUint8();
-        this.referenceIndex = reader.readUint16();
+        this.descriptorIdx = reader.readUint16();
     }
 
     @Override

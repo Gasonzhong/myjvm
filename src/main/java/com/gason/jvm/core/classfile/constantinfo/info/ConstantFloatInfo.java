@@ -14,7 +14,7 @@ public class ConstantFloatInfo extends ConstantInfo {
 
     @Override
     protected void readInfo(ClassReader reader) {
-        val = reader.readU4ToFloat();
+        val = reader.readUint64TFloat();
     }
 
     public float getVal() {

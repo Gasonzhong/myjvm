@@ -1,9 +1,8 @@
 package com.gason.jvm.core.classfile;
 
+import com.gason.jvm.core.classfile.attributes.AttributeInfo;
 import com.gason.jvm.core.loader.ClassReader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,12 +31,11 @@ public class ClassFile {
         ClassReader classReader = new ClassReader(classData);
         readAndCheckMagic(classReader);
         readAndCheckVersion(classReader);
-        readConstantPool(classReader);
-        this.accessFlags = classReader.readU2ToInt();
-        this.thisClass = classReader.readU2ToInt();
-        this.superClass = classReader.readU2ToInt();
-        this.interfacesCount = classReader.readU2ToInt();
-        this.interfaces = classReader.readUInt16s();
+        this.constantPool = readConstantPool(classReader);
+        this.accessFlags = classReader.readUint16();
+        this.thisClass = classReader.readUint16();
+        this.superClass = classReader.readUint16();
+        this.interfaces = classReader.readUint16s();
         this.feilds = readMembers(classReader, this.constantPool);
         this.methods = readMembers(classReader, this.constantPool);
         this.attributes = readAttributes(classReader, this.constantPool);
@@ -45,11 +43,11 @@ public class ClassFile {
 
 
     private MemberInfo[] readMembers(ClassReader classReader, ConstantPool constantPool) {
-        return null;
+        return MemberInfo.readMembers(classReader,constantPool);
     }
 
     private AttributeInfo[] readAttributes(ClassReader classReader, ConstantPool constantPool) {
-        return null;
+        return AttributeInfo.readAttributes(classReader,constantPool);
     }
 
     /**
@@ -58,9 +56,13 @@ public class ClassFile {
      * @param classReader
      */
     private void readAndCheckMagic(ClassReader classReader) {
-        String magic = classReader.readU4ToHexStr().toLowerCase();
-        if (!magicVersion.equals(magic)) {
-            throw new ClassFormatError("magic is wrong!!!");
+//        String magic = classReader.readU4ToHexStr().toLowerCase();
+//        if (!magicVersion.equals(magic)) {
+//            throw new ClassFormatError("magic is wrong!!!");
+//        }
+        long magic = classReader.readUint32();
+        if (magic != (0xCAFEBABE & 0x0FFFFFFFFL)) {
+            throw new ClassFormatError("magic!");
         }
     }
 
@@ -70,8 +72,8 @@ public class ClassFile {
      * @param classReader
      */
     private void readAndCheckVersion(ClassReader classReader) {
-        this.minorVersion = classReader.readU2ToInt();
-        this.majorVersion = classReader.readU2ToInt();
+        this.minorVersion = classReader.readUint16();
+        this.majorVersion = classReader.readUint16();
         switch (this.majorVersion) {
             case 45:
                 return;
@@ -91,7 +93,8 @@ public class ClassFile {
         throw new UnsupportedClassVersionError("version is wrong!");
     }
 
-    private void readConstantPool(ClassReader classReader) {
+    private ConstantPool readConstantPool(ClassReader classReader) {
+        return new ConstantPool(classReader);
     }
 
     /**
@@ -121,12 +124,11 @@ public class ClassFile {
      * @return
      */
     public String[] getInfacesName() {
-        List<String> names = new LinkedList<>();
-        for (int inter : this.interfaces) {
-            names.add(this.constantPool.getClassName(inter));
+        String[] interfaceNames = new String[this.interfaces.length];
+        for (int i = 0; i < this.interfaces.length; i++) {
+            interfaceNames[i] = this.constantPool.getClassName(interfaces[i]);
         }
-        String[] strings = new String[names.size()];
-        return names.toArray(strings);
+        return interfaceNames;
     }
 
     public int getMinorVersion() {

@@ -31,8 +31,8 @@ public class ConstantNameAndTypeInfo extends ConstantInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        nameIndex = reader.readU2ToInt();
-        descriptorIndex = reader.readU2ToInt();
+        nameIndex = reader.readUint16();
+        descriptorIndex = reader.readUint16();
     }
 
     @Override

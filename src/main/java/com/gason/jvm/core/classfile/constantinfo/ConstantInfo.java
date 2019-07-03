@@ -41,7 +41,7 @@ public abstract class ConstantInfo {
      * @return
      */
     public static ConstantInfo readConstantInfo(ClassReader reader, ConstantPool pool) {
-        int tag = reader.readU2ToInt();
+        int tag = reader.readUint8();
         ConstantInfo info = newConstantInfo(tag, pool);
         info.readInfo(reader);
         return info;
@@ -58,6 +58,8 @@ public abstract class ConstantInfo {
                 return new ConstantIntegerInfo();
             case CONSTANT_FLOAT:
                 return new ConstantFloatInfo();
+            case CONSTANT_LONG:
+                return new ConstantLongInfo();
             case CONSTANT_DOUBLE:
                 return new ConstantDoubleInfo();
             case CONSTANT_UTF8:
@@ -81,7 +83,7 @@ public abstract class ConstantInfo {
             case CONSTANT_INVOKEDYNAMIC:
                 return new ConstantInvokeDynamicInfo();
             default:
-                throw new ClassFormatError("ERROR:constant pool tag!");
+                throw new ClassFormatError("ERROR:constant pool tag!,tag=" + tag);
         }
     }
 }

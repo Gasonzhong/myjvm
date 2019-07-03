@@ -34,12 +34,12 @@ public class MainCli {
         }
 //        System.out.println("gason-jvm start!!!");
 ////        JvmCli.parseCmd(args);
-//        try {
-//            JvmCli.startJvm(args);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (EntryException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            JvmCli.startJvm(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (EntryException e) {
+            e.printStackTrace();
+        }
     }
 }
